@@ -10,6 +10,15 @@ const initialBlocks: Block[] = [
   { type: "text", content: "" }
 ];
 
+// 中文名稱對應
+const typeLabels: Record<BlockType, string> = {
+  text: "文字段落",
+  image: "圖片",
+  ebook: "電子書",
+  sticker: "貼圖",
+  audio: "音檔"
+};
+
 export default function EditorPage() {
   const [blocks, setBlocks] = useState<Block[]>(initialBlocks);
 
@@ -38,13 +47,7 @@ export default function EditorPage() {
               <span style={{
                 color: "#d4af37", fontWeight: 700, fontSize: 16, marginRight: 9
               }}>
-                {({
-                  text: "文字段落",
-                  image: "圖片",
-                  ebook: "電子書",
-                  sticker: "貼圖",
-                  audio: "音檔"
-                } as any)[block.type]}
+                {typeLabels[block.type]}
               </span>
               <button onClick={() => removeBlock(idx)} style={{
                 color: "#e05a5a", border: "none", background: "none", marginRight: 7, fontSize: 15, cursor: "pointer"
@@ -106,7 +109,8 @@ export default function EditorPage() {
     </div>
   );
 }
-const btnStyle = {
+
+const btnStyle: React.CSSProperties = {
   background: "#212946", color: "#d4af37", border: "2px solid #d4af37", fontWeight: 700,
   borderRadius: 7, fontSize: 16, padding: "7px 15px", marginRight: 8, marginBottom: 10, cursor: "pointer"
 };
