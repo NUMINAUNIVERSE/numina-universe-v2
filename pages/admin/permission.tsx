@@ -16,16 +16,22 @@ const mockPermissions = [
   { key: "管理後台", label: "管理後台功能" }
 ];
 
-const defaultPermissions = {
+// 明確定義角色 Key 型別
+type RoleKey = "admin" | "creator" | "user";
+type PermissionState = { [key in RoleKey]: boolean[] };
+
+const defaultPermissions: PermissionState = {
   admin: [true, true, true, true, true, true, true],
   creator: [true, true, true, true, true, true, false],
   user: [false, false, true, true, true, true, false]
 };
 
 export default function PermissionPage() {
-  const [permissions, setPermissions] = useState(defaultPermissions);
+  // useState 型別註明
+  const [permissions, setPermissions] = useState<PermissionState>(defaultPermissions);
 
-  const toggle = (roleKey: string, i: number) => {
+  // 參數 roleKey 明確為 RoleKey
+  const toggle = (roleKey: RoleKey, i: number) => {
     setPermissions(p => ({
       ...p,
       [roleKey]: p[roleKey].map((v, idx) => (idx === i ? !v : v))
@@ -73,8 +79,8 @@ export default function PermissionPage() {
                       <label style={{ cursor: "pointer" }}>
                         <input
                           type="checkbox"
-                          checked={permissions[r.key][i]}
-                          onChange={() => toggle(r.key, i)}
+                          checked={permissions[r.key as RoleKey][i]}
+                          onChange={() => toggle(r.key as RoleKey, i)}
                           style={{
                             accentColor: "#d4af37",
                             width: 21, height: 21
@@ -97,3 +103,4 @@ export default function PermissionPage() {
     </div>
   );
 }
+
